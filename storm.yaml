@@ -47,7 +47,12 @@ drpc.servers:
      - "u2-denali.hwx.test"
      - "u3-denali.hwx.test"
      - "u4-denali.hwx.test"
-
+     
+# Override to use only 2 slots
+supervisor.slots.ports:
+    - 6700
+    - 6701
+    
 ## Metrics Consumers
 # topology.metrics.consumer.register:
 #   - class: "backtype.storm.metrics.LoggingMetricsConsumer"

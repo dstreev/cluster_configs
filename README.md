@@ -1,8 +1,8 @@
 Storm Cluster for the Denali Cluster
 ===============
 
-# Servers:
-## Nimbus and UI
+# Servers (all in a pdsh group called denali/storm)
+## Nimbus and UI (Storm Master)
 m2-denali.hwx.test
 
 ## Supervisors
@@ -26,7 +26,7 @@ wget http://apache.claz.org/incubator/storm/apache-storm-0.9.1-incubating/apache
 
 Need to get this artifact to the vagrant host directory so it can be picked up below.
 
-### Deploy:
+### Deploy
 pdsh -g denali/storm 'cd /vagrant;tar -zxf apache-storm-0.9.1-incubating.tar.gz -C /usr/share; mv /usr/share/apache-storm-0.9.1-incubating /usr/share/storm-0.9.1;chown -R storm:storm /usr/share/storm-0.9.1;mkdir -p /etc/storm' | dshbak
 
 pdsh -g denali/storm ' mkdir /etc/storm;cd /etc/storm; git clone https://github.com/dstreev/cluster_configs.git conf;cd conf;git checkout -b denali.storm --track origin/denali.storm; chown -R storm:storm /etc/storm/conf' | dshbak
@@ -47,3 +47,8 @@ pdsh -g denali/storm 'rm -rf /etc/storm /usr/share/storm-0.9.1;rm /usr/bin/storm
 pdsh -g denali/storm 'cd /etc/storm/conf;git pull' | dshbak
 
 Will require a restart.
+
+### Running a sample topology.
+
+wget http://public-repo-1.hortonworks.com/HDP-LABS/Projects/Storm/0.9.0.1/storm-starter-0.0.1-storm-0.9.0.1.jar
+storm jar storm-starter-0.0.1-storm-0.9.0.1.jar storm.starter.WordCountTopology WordCount
